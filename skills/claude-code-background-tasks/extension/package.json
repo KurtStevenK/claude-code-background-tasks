@@ -1,0 +1,62 @@
+{
+  "name": "claude-background-tasks",
+  "displayName": "Claude Background Tasks",
+  "description": "Shows the background tasks of your Claude Code session (shell commands, agents, monitors, workflows) in the Claude Code sidebar, like the desktop app does.",
+  "version": "0.3.0",
+  "publisher": "kurtstevenk",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/KurtStevenK/claude-code-background-tasks" },
+  "engines": { "vscode": "^1.94.0" },
+  "categories": ["Other"],
+  "main": "./extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "claude-background-tasks", "title": "Claude Background Tasks", "icon": "media/tasks.svg" }
+      ]
+    },
+    "views": {
+      "claude-sessions-sidebar": [
+        { "id": "claudeBackgroundTasks", "name": "Background Tasks", "when": "claude-vscode.sessionsListEnabled" }
+      ],
+      "claude-background-tasks": [
+        { "id": "claudeBackgroundTasksStandalone", "name": "Background Tasks", "when": "!claude-vscode.sessionsListEnabled" }
+      ]
+    },
+    "commands": [
+      { "command": "claudeBackgroundTasks.refresh", "title": "Refresh", "icon": "$(refresh)", "category": "Claude Background Tasks" },
+      { "command": "claudeBackgroundTasks.chooseSession", "title": "Choose Session…", "icon": "$(list-selection)", "category": "Claude Background Tasks" },
+      { "command": "claudeBackgroundTasks.clearFinished", "title": "Clear Finished", "icon": "$(trash)", "category": "Claude Background Tasks" },
+      { "command": "claudeBackgroundTasks.openOutput", "title": "Open Output", "icon": "$(go-to-file)" },
+      { "command": "claudeBackgroundTasks.stop", "title": "Stop Task", "icon": "$(debug-stop)" },
+      { "command": "claudeBackgroundTasks.copyId", "title": "Copy Task ID" }
+    ],
+    "menus": {
+      "view/title": [
+        { "command": "claudeBackgroundTasks.clearFinished", "when": "view =~ /^claudeBackgroundTasks/", "group": "navigation@1" },
+        { "command": "claudeBackgroundTasks.chooseSession", "when": "view =~ /^claudeBackgroundTasks/", "group": "navigation@2" },
+        { "command": "claudeBackgroundTasks.refresh", "when": "view =~ /^claudeBackgroundTasks/", "group": "navigation@3" }
+      ],
+      "view/item/context": [
+        { "command": "claudeBackgroundTasks.stop", "when": "viewItem =~ /task-running/", "group": "inline@0" },
+        { "command": "claudeBackgroundTasks.stop", "when": "viewItem =~ /task-running/", "group": "0@1" },
+        { "command": "claudeBackgroundTasks.openOutput", "when": "viewItem =~ /task-out/", "group": "inline" },
+        { "command": "claudeBackgroundTasks.openOutput", "when": "viewItem =~ /task-out/", "group": "1@1" },
+        { "command": "claudeBackgroundTasks.copyId", "when": "viewItem =~ /^task/", "group": "1@2" }
+      ],
+      "commandPalette": [
+        { "command": "claudeBackgroundTasks.openOutput", "when": "false" },
+        { "command": "claudeBackgroundTasks.stop", "when": "false" },
+        { "command": "claudeBackgroundTasks.copyId", "when": "false" }
+      ]
+    },
+    "configuration": {
+      "title": "Claude Background Tasks",
+      "properties": {
+        "claudeBackgroundTasks.pollIntervalMs": { "type": "number", "default": 1500, "minimum": 500, "description": "How often the session transcript is checked for new tasks." },
+        "claudeBackgroundTasks.staleMinutes": { "type": "number", "default": 180, "description": "A task still marked running in a session that has been quiet this long is shown as 'no result'." }
+      }
+    }
+  }
+}

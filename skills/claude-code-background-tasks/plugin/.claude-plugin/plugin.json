@@ -1,0 +1,1 @@
+{ "name": "background-tasks-stop", "version": "0.1.0", "license": "MIT", "description": "Lets the Claude Background Tasks sidebar in VSCodium stop a session's background tasks (shell commands, agents, monitors, workflows) through Claude's own TaskStop." }

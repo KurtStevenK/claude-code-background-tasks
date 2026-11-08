@@ -1,0 +1,11 @@
+{
+  "name": "claude-code-background-tasks",
+  "owner": { "name": "Kurt Steven Kainzmayer" },
+  "plugins": [
+    {
+      "name": "background-tasks-stop",
+      "source": "./skills/claude-code-background-tasks/plugin",
+      "description": "Lets the Claude Background Tasks sidebar in VSCodium stop a session's background tasks through Claude's own TaskStop."
+    }
+  ]
+}
